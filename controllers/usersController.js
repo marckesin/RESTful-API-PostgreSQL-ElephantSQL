@@ -1,5 +1,8 @@
 const { v4: uuidv4 } = require("uuid");
+const bcrypt = require("bcrypt");
 const db = require("../db/database.config");
+
+const saltRounds = 10;
 
 exports.usersGetAll = async (req, res) => {
   await db.queryAll(
@@ -30,19 +33,21 @@ exports.usersGetById = async (req, res) => {
   );
 };
 
-exports.usersCreate = async (req, res) => {
+exports.usersCreate = (req, res) => {
   const { username, password } = req.body;
 
-  await db.query(
-    "INSERT INTO application_user VALUES ($1, $2, $3)",
-    [uuidv4(), username, password],
-    (err, result) => {
-      if (err) {
-        return res.send(err);
-      }
-      res.status(201).send("User created.");
-    },
-  );
+  bcrypt.hash(password, saltRounds, async (err, hash) => {
+    await db.query(
+      "INSERT INTO application_user VALUES ($1, $2, $3)",
+      [uuidv4(), username, hash],
+      (err, result) => {
+        if (err) {
+          return res.send(err);
+        }
+        res.status(201).send("User created.");
+      },
+    );
+  });
 };
 
 exports.usersUpdate = async (req, res) => {
