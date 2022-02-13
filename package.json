@@ -1,0 +1,21 @@
+{
+  "name": "api-rest-node",
+  "version": "1.0.0",
+  "description": "Aplicação RESTful desenvolvida em Node/Express e PostgreSQL.",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app",
+    "devstart": "nodemon app"
+  },
+  "author": "Ronaldo",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "pg": "^8.7.3",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}
