@@ -28,7 +28,7 @@ router.get("/users/:uuid", async (req, res, next) => {
       if (err) {
         return res.send(err);
       } else if (!result.rowCount) {
-        return res.send("User not found.");
+        return res.send("UserId not found.");
       }
       res.status(200).send(result.rows[0]);
     },
@@ -51,12 +51,41 @@ router.post("/users", async (req, res) => {
   );
 });
 
-router.put("/users/:uuid", (req, res) => {
-  console.log(req.params.uuid);
+// [PUT]
+router.put("/users/:uuid", async (req, res, next) => {
+  const uuid = req.params.uuid;
+  const { username, password } = req.body;
+
+  await db.query(
+    "UPDATE application_user SET username = $1, password = $2 WHERE uuid = $3 ",
+    [username, password, uuid],
+    (err, result) => {
+      if (err) {
+        return res.send(err);
+      } else if (!result.rowCount) {
+        return res.send("UserId not found.");
+      }
+      res.status(200).json({ username: username, password: password });
+    },
+  );
 });
 
-router.delete("/users/:uuid", (req, res) => {
-  console.log(req.params.uuid);
+// [DELETE]
+router.delete("/users/:uuid", async (req, res, next) => {
+  const uuid = req.params.uuid;
+
+  await db.query(
+    "DELETE FROM application_user WHERE uuid = $1;",
+    [uuid],
+    (err, result) => {
+      if (err) {
+        return res.send(err);
+      } else if (!result.rowCount) {
+        return res.send("UserId not found.");
+      }
+      res.status(200).send("UserId deleted.");
+    },
+  );
 });
 
 module.exports = router;
