@@ -36,18 +36,16 @@ exports.usersGetById = async (req, res) => {
 exports.usersCreate = async (req, res) => {
   const { username, password } = req.body;
 
-  bcrypt.hash(password, saltRounds).then(async hash => {
-    await db.query(
-      "INSERT INTO application_user VALUES ($1, $2, $3)",
-      [uuidv4(), username, hash],
-      (err, result) => {
-        if (err) {
-          return res.send(err);
-        }
-        res.status(201).send("User created.");
-      },
-    );
-  });
+  await db.query(
+    "INSERT INTO application_user VALUES ($1, $2, $3)",
+    [uuidv4(), username, await bcrypt.hash(password, saltRounds)],
+    (err, result) => {
+      if (err) {
+        return res.send(err);
+      }
+      res.status(201).send("User created.");
+    },
+  );
 };
 
 exports.usersUpdate = async (req, res) => {
