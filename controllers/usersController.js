@@ -33,10 +33,10 @@ exports.usersGetById = async (req, res) => {
   );
 };
 
-exports.usersCreate = (req, res) => {
+exports.usersCreate = async (req, res) => {
   const { username, password } = req.body;
 
-  bcrypt.hash(password, saltRounds, async (err, hash) => {
+  bcrypt.hash(password, saltRounds).then(async hash => {
     await db.query(
       "INSERT INTO application_user VALUES ($1, $2, $3)",
       [uuidv4(), username, hash],

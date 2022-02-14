@@ -10,6 +10,4 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 mountRoutes(app);
 
-app.listen(port, () => {
-  console.log(`Servidor rodando na porta ${port}`);
-});
+app.listen(port);
