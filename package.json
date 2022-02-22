@@ -4,8 +4,8 @@
   "description": "Aplicação RESTful desenvolvida em Node/Express e PostgreSQL.",
   "main": "app.js",
   "scripts": {
-    "start": "node app",
-    "devstart": "nodemon app"
+    "start": "node index",
+    "devstart": "nodemon index"
   },
   "engines": {
     "node": "14.x"

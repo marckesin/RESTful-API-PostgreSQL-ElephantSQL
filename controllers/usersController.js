@@ -50,37 +50,39 @@ exports.usersCreate = async (req, res, next) => {
   }
 };
 
-exports.usersUpdate = async (req, res) => {
+exports.usersUpdate = async (req, res, next) => {
   const { uuid } = req.params;
   const { username, password } = req.body;
 
-  await db.query(
-    "UPDATE application_user SET username = $1, password = $2 WHERE uuid = $3 ",
-    [username, password, uuid],
-    (err, result) => {
-      if (err) {
-        return res.send(err);
-      } else if (!result.rowCount) {
-        return res.status(404).send("User not found.");
-      }
-      res.status(200).json({ username: username, password: password });
-    },
-  );
+  try {
+    const result = await db.query(
+      "UPDATE application_user SET username = $1, password = $2 WHERE uuid = $3 ",
+      [username, await bcrypt.hash(password, saltRounds), uuid],
+    );
+
+    if (result.rowCount) {
+      return res.status(200).send("User updated.");
+    }
+    return res.status(404).send("ID not found.");
+  } catch (error) {
+    next(error);
+  }
 };
 
-exports.usersDelete = async (req, res) => {
+exports.usersDelete = async (req, res, next) => {
   const { uuid } = req.params;
 
-  await db.query(
-    "DELETE FROM application_user WHERE uuid = $1;",
-    [uuid],
-    (err, result) => {
-      if (err) {
-        return res.send(err);
-      } else if (!result.rowCount) {
-        return res.status(404).send("UserId not found.");
-      }
-      res.status(200).send("User deleted.");
-    },
-  );
+  try {
+    const result = await db.query(
+      "DELETE FROM application_user WHERE uuid = $1;",
+      [uuid],
+    );
+
+    if (result.rowCount) {
+      return res.status(200).send("User deleted.");
+    }
+    return res.status(404).send("UserId not found.");
+  } catch (error) {
+    next(error);
+  }
 };
