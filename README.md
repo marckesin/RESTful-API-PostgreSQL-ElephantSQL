@@ -4,12 +4,15 @@
 
 Aplicação RESTful desenvolvida em Node/Express e integração com banco de dados PostgreSQL usando DBaaS [https://www.elephantsql.com/](https://www.elephantsql.com/).
 
-### Endpoints
-
----
+## Endpoints
 
 - GET - /users
 - GET by id - /users/id
 - POST - /users
 - PUT - /users/id
 - DELETE - /users/id
+
+## Ferramentas
+
+- [Thunder Client](https://www.thunderclient.com/)
+- [Postman](https://www.postman.com/)
