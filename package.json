@@ -20,6 +20,11 @@
     "pg": "^8.7.3",
     "uuid": "^8.3.2"
   },
+  "keywords": [
+    "nodejs",
+    "express",
+    "deta"
+  ],
   "devDependencies": {
     "nodemon": "^2.0.15"
   }
