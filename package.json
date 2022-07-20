@@ -23,7 +23,9 @@
   "keywords": [
     "nodejs",
     "express",
-    "deta"
+    "deta",
+    "api",
+    "postgreSQL"
   ],
   "devDependencies": {
     "nodemon": "^2.0.15"
